@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Tag } from 'reactbulma'
+import { Tag, Field, Control } from 'reactbulma'
 export default class PlayerResults extends Component {
 
   totalDamage() {
@@ -19,12 +19,21 @@ export default class PlayerResults extends Component {
     const dps = damage / data.combatLength
     return (
       <div>
-        <Tag dark>Name: {data.name}</Tag>
-        <Tag dark>Race: {data.race}</Tag>
-        <Tag dark>DPS: {Math.round(dps)}</Tag>
-        <Tag dark>Damage: {damage}</Tag>
+        <Field grouped>
+          <Control>
+          <Tag dark>Name: {data.name}</Tag>
+        </Control>
+          <Control>
+          <Tag dark>Race: {data.race}</Tag>
+        </Control>
+          <Control>
+          <Tag dark>DPS: {Math.round(dps)}</Tag>
+        </Control>
+          <Control>
+          <Tag dark>Damage: {damage}</Tag>
+        </Control>
+        </Field>
       </div>
     )
-
   }
 }
