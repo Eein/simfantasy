@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import DamageBreakdown from './charts/DamageBreakdown.js'
+import DamagePerSecond from './charts/DamagePerSecond.js'
 import './App.css'
 
 class App extends Component {
@@ -8,6 +9,7 @@ class App extends Component {
     return (
       <div className="App">
         <DamageBreakdown data={data} />
+        <DamagePerSecond data={data} />
       </div>
     )
   }
