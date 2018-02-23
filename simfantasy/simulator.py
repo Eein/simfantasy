@@ -213,7 +213,7 @@ class Simulation:
                 self.logger.info('Actor: %s\n\n%s\n', actor.name, '\n'.join(tables))
 
         if self.export_html:
-            report = Report(self.actors)
+            report = Report(self, self.actors)
             report.render()
             self.logger.info('Writing Report')
 
@@ -424,10 +424,6 @@ class Actor:
             base_stats[stat] += floor(base_main_stat * (bonus / 100)) + race_stats[stat]
 
         return base_stats
-
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__,
-                          sort_keys=True, indent=4)
 
     def __str__(self):
         return '<{cls} name={name}>'.format(cls=self.__class__.__name__, name=self.name)

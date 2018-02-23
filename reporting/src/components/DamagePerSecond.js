@@ -26,7 +26,6 @@ export default class DamageBreakdown extends Component {
       })
     }
     points.sort((a,b) => a[0] > b[0] ? 1 : -1);
-    console.log(points)
 
     return points;
   }
