@@ -12,7 +12,7 @@ from humanfriendly.tables import format_pretty_table, format_robust_table
 from simfantasy.common_math import get_base_stats_by_job, get_racial_attribute_bonuses, \
     main_stat_per_level, sub_stat_per_level
 from simfantasy.enums import Attribute, Job, Race, RefreshBehavior, Slot
-
+from simfantasy.report import Report
 
 class Simulation:
     """A simulated combat encounter."""
@@ -207,7 +207,11 @@ class Simulation:
             if len(tables) > 0:
                 self.logger.info('Actor: %s\n\n%s\n', actor.name, '\n'.join(tables))
 
+        report = Report(self.actors)
+        report.render()
+        self.logger.info('Writing Report')
         self.logger.info('Quitting!')
+
 
     def __set_logger(self, log_level: int):
         logger = logging.getLogger()
@@ -329,6 +333,7 @@ class Actor:
             'auras': {},
         }
 
+
         self.sim.actors.append(self)
 
         self.sim.logger.debug('Initialized: %s', self)
@@ -412,6 +417,10 @@ class Actor:
             base_stats[stat] += floor(base_main_stat * (bonus / 100)) + race_stats[stat]
 
         return base_stats
+
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)
 
     def __str__(self):
         return '<{cls} name={name}>'.format(cls=self.__class__.__name__, name=self.name)
