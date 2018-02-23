@@ -16,3 +16,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+reporting/build/asset-manifest.json
+reporting/build/favicon.ico
+reporting/build/index.html
+reporting/build/manifest.json
+reporting/build/service-worker.js
+reporting/build/static/css/*.map
+reporting/build/static/js/*.map
