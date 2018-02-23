@@ -1,8 +1,8 @@
 import json
 import glob
 class Report:
-    def __init__(self, sim, actors: None):
-        self.actors = actors
+    def __init__(self, sim):
+        self.actors = sim.actors
         self.sim = sim
     def render(self):
         stats = self.parse_actors()

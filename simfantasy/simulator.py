@@ -213,7 +213,7 @@ class Simulation:
                 self.logger.info('Actor: %s\n\n%s\n', actor.name, '\n'.join(tables))
 
         if self.export_html:
-            report = Report(self, self.actors)
+            report = Report(self)
             report.render()
             self.logger.info('Writing Report')
 
