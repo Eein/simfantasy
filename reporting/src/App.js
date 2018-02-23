@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import DamageBreakdown from './components/DamageBreakdown.js'
 import DamagePerSecond from './components/DamagePerSecond.js'
 import DamagePerExecute from './components/DamagePerExecute.js'
+import TimeSpent from './components/TimeSpent.js'
 import PlayerResults from './components/PlayerResults.js'
 import Highcharts from 'react-highcharts'
 import './App.css'
@@ -16,6 +17,7 @@ class App extends Component {
           <DamageBreakdown data={profile} />
           <DamagePerSecond data={profile} />
           <DamagePerExecute data={profile} />
+          <TimeSpent data={profile} />
         </div>
       )
     })
