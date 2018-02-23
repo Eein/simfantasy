@@ -219,7 +219,6 @@ class Simulation:
 
         self.logger.info('Quitting!')
 
-
     def __set_logger(self, log_level: int):
         logger = logging.getLogger()
         logger.setLevel(log_level)
@@ -339,7 +338,6 @@ class Actor:
             'actions': {},
             'auras': {},
         }
-
 
         self.sim.actors.append(self)
 
