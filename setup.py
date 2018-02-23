@@ -10,7 +10,6 @@ setup(
     install_requires=[
         'numpy',
         'humanfriendly',
-        'jsonpickle'
     ],
     extras_require={
         'docs': [

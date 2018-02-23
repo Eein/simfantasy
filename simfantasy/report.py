@@ -1,5 +1,4 @@
 import json
-import jsonpickle
 
 class Report:
     def __init__(self, actors: None):
