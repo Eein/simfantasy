@@ -49,7 +49,6 @@ export default class DamageBreakdown extends Component {
       amount = amount === Infinity ? 0 : amount
       result.push([index * interval, amount])
     })
-    console.log('result', result)
     return result;
   }
 
