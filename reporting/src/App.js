@@ -5,6 +5,7 @@ import DamagePerExecute from './components/DamagePerExecute.js'
 import TimeSpent from './components/TimeSpent.js'
 import PlayerResults from './components/PlayerResults.js'
 import Highcharts from 'react-highcharts'
+import { Level } from 'reactbulma'
 import './App.css'
 
 class App extends Component {
@@ -13,11 +14,25 @@ class App extends Component {
     const profiles = data.map(profile => {
       return (
         <div>
-          <PlayerResults data={profile} />
-          <DamageBreakdown data={profile} />
-          <DamagePerSecond data={profile} />
-          <DamagePerExecute data={profile} />
-          <TimeSpent data={profile} />
+          <Level>
+            <PlayerResults data={profile} />
+          </Level>
+          <Level>
+            <Level.Left>
+              <DamageBreakdown data={profile} />
+            </Level.Left>
+            <Level.Right>
+              <DamagePerSecond data={profile} />
+            </Level.Right>
+          </Level>
+          <Level>
+            <Level.Left>
+              <DamagePerExecute data={profile} />
+            </Level.Left>
+            <Level.Right>
+              <TimeSpent data={profile} />
+            </Level.Right>
+          </Level>
         </div>
       )
     })
