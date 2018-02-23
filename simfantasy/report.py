@@ -1,5 +1,5 @@
 import json
-
+import glob
 class Report:
     def __init__(self, actors: None):
         self.actors = actors
@@ -10,18 +10,35 @@ class Report:
           <head>
             <title>Simfantasy Report</title>
             <meta charset="UTF-8">
-            <script src="https://code.highcharts.com/highcharts.js"></script>
-            <script src="https://code.highcharts.com/modules/exporting.js"></script>
             <script type="text/javascript">
                window.actor_data = {};
             </script>
           </head>
           <body>
-            <div id="damage-breakdown" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-            <script src='./simfantasy/report/app.js'></script>
+            <div id='root'></div>
+        """.format(json.dumps(stats))
+        javascript = ""
+        file = glob.glob('./reporting/build/static/js/*.js')[0]
+        with open(file, 'r') as fin:
+            javascript = fin.read()
+        html += """
+            <script type="text/javascript">
+              {}
+            </script>
+        """.format(javascript)
+        css = ""
+        file = glob.glob('./reporting/build/static/css/*.css')[0]
+        with open(file, 'r') as fin:
+            css = fin.read()
+        html += """
+            <style>
+              {}
+            </style>
+        """.format(css)
+        html += """
           </body>
         </html>
-        """.format(json.dumps(stats))
+        """
         file = open("./report.html","w")
         file.write(html)
         file.close()
