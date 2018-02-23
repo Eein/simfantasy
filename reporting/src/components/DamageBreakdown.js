@@ -14,7 +14,7 @@ export default class DamageBreakdown extends Component {
       })
       if(totalDamage > 0) {
         damageBreakdown.push({
-          name: key.toString(),
+          name: key.toString().substring(0, key.toString().length - 4),
           y: totalDamage,
         })
       }
