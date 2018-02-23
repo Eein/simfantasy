@@ -7,7 +7,8 @@ from simfantasy.simulator import Actor, Item, Simulation, Weapon
 
 if __name__ == '__main__':
     sim = Simulation(log_level=logging.DEBUG if 'debug=1' in argv else None,
-                     vertical_output='vertical=1' in argv)
+                     vertical_output='vertical=1' in argv,
+                     export_html=True if 'export_html=1' in argv else None)
 
     enemy = Actor(sim=sim, race=Race.ENEMY)
 

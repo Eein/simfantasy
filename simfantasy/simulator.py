@@ -17,7 +17,7 @@ from simfantasy.report import Report
 class Simulation:
     """A simulated combat encounter."""
 
-    def __init__(self, combat_length: timedelta = None, log_level: int = None, vertical_output: bool = None):
+    def __init__(self, combat_length: timedelta = None, log_level: int = None, vertical_output: bool = None, export_html: bool = None):
         """
         Create a new simulation.
 
@@ -32,10 +32,15 @@ class Simulation:
         if vertical_output is None:
             vertical_output = False
 
+        if export_html is None:
+            export_html = False
+
         self.combat_length: timedelta = combat_length
         """Total length of encounter. Not in real time."""
 
         self.vertical_output: bool = vertical_output
+
+        self.export_html = export_html
 
         self.actors: List[Actor] = []
         """List of actors involved in this encounter, i.e., players and enemies."""
@@ -207,9 +212,11 @@ class Simulation:
             if len(tables) > 0:
                 self.logger.info('Actor: %s\n\n%s\n', actor.name, '\n'.join(tables))
 
-        report = Report(self.actors)
-        report.render()
-        self.logger.info('Writing Report')
+        if self.export_html:
+            report = Report(self.actors)
+            report.render()
+            self.logger.info('Writing Report')
+
         self.logger.info('Quitting!')
 
 

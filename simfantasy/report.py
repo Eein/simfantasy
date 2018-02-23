@@ -10,12 +10,16 @@ class Report:
         <html>
           <head>
             <title>Simfantasy Report</title>
-            <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+            <meta charset="UTF-8">
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/exporting.js"></script>
             <script type="text/javascript">
                window.actor_data = {};
             </script>
           </head>
           <body>
+            <div id="damage-breakdown" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+            <script src='./simfantasy/report/app.js'></script>
           </body>
         </html>
         """.format(json.dumps(stats))
