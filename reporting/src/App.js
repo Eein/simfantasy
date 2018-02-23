@@ -2,15 +2,13 @@ import React, { Component } from 'react'
 import DamageBreakdown from './components/DamageBreakdown.js'
 import DamagePerSecond from './components/DamagePerSecond.js'
 import PlayerResults from './components/PlayerResults.js'
+import Highcharts from 'react-highcharts'
 import './App.css'
 
 class App extends Component {
   renderProfiles() {
-
     const data = (window && window.actor_data) || testData()
-    console.log(data)
     const profiles = data.map(profile => {
-      console.log(profile)
       return (
         <div>
           <PlayerResults data={profile} />

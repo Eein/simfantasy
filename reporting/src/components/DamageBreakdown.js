@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import ReactHighcharts from 'react-highcharts'
+import theme from './theme'
+theme(ReactHighcharts.Highcharts)
+
 export default class DamageBreakdown extends Component {
 
   processData() {
