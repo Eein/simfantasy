@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from heapq import heapify, heappop, heappush
 from math import floor
 from typing import Dict, List, Tuple, Union
+from statistics import mean
 
 import humanfriendly
 from humanfriendly.tables import format_pretty_table, format_robust_table
@@ -99,28 +100,64 @@ class Simulation:
 
             if len(actor.statistics['actions']) > 0:
                 statistics = []
+                totals = [0,0,0,0,0,0,0,0]
 
                 for cls in actor.statistics['actions']:
                     s = actor.statistics['actions'][cls]
                     total_damage = sum(damage for timestamp, damage in s['damage'])
                     casts = len(s['casts'])
                     execute_time = sum(duration.total_seconds() for timestamp, duration in s['execute_time'])
+                    damage_mean = total_damage / casts
+                    dps = total_damage / self.combat_length.total_seconds()
+                    dpet = total_damage / execute_time
+                    crit_percent = (len(s['critical_hits']) / casts) * 100
+                    direct_hit_percent = (len(s['direct_hits']) / casts) * 100
+                    crit_direct_hit_percent = (len(s['critical_direct_hits']) / casts) * 100
+
+                    # update totals
+                    totals[0] += casts
+                    totals[1] += total_damage
+                    totals[2] = mean([totals[2], damage_mean ])
+                    totals[3] += dps
+                    totals[4] = mean([totals[4], dpet])
+                    totals[5] = mean([totals[5], crit_percent])
+                    totals[6] = mean([totals[6], direct_hit_percent])
+                    totals[7] = mean([totals[7], crit_direct_hit_percent])
 
                     statistics.append((
                         cls.__name__,
                         casts,
                         format(total_damage, ',.0f'),
-                        format(total_damage / casts, ',.3f'),
-                        format(total_damage / self.combat_length.total_seconds(), ',.3f'),
-                        format(total_damage / execute_time, ',.3f'),
+                        format(damage_mean, ',.3f'),
+                        format(dps, ',.3f'),
+                        format(dpet, ',.3f'),
                         humanfriendly.terminal.ansi_wrap(color='red',
-                                                         text=format((len(s['critical_hits']) / casts) * 100, '.3f')),
+                                                         text=format(crit_percent, '.3f')),
                         humanfriendly.terminal.ansi_wrap(color='blue',
-                                                         text=format((len(s['direct_hits']) / casts) * 100, '.3f')),
+                                                         text=format(direct_hit_percent, '.3f')),
                         humanfriendly.terminal.ansi_wrap(color='magenta',
-                                                         text=format((len(s['critical_direct_hits']) / casts) * 100,
+                                                         text=format(crit_direct_hit_percent,
                                                                      '.3f')),
                     ))
+
+                statistics.append((
+                    '---', '---', '---', '---', '---', '---', '---', '---', '---',
+                ))
+
+                statistics.append((
+                    'Total',
+                    totals[0],
+                    format(totals[1], ',.0f'),
+                    format(totals[2], ',.3f'),
+                    format(totals[3], ',.3f'),
+                    format(totals[4], ',.3f'),
+                    humanfriendly.terminal.ansi_wrap(color='red',
+                                                     text=format(totals[5], '.3f')),
+                    humanfriendly.terminal.ansi_wrap(color='blue',
+                                                     text=format(totals[6], '.3f')),
+                    humanfriendly.terminal.ansi_wrap(color='magenta',
+                                                     text=format(totals[7], '.3f')),
+                ))
 
                 tables.append(format_table(
                     statistics,
