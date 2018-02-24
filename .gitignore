@@ -106,3 +106,4 @@ venv.bak/
 
 # hide generated reports
 report.html
+node_modules
