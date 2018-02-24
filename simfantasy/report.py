@@ -1,5 +1,6 @@
 import json
 import glob
+from simfantasy.enums import Race
 class Report:
     def __init__(self, sim):
         self.actors = sim.actors

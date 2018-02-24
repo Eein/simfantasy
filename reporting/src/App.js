@@ -3,6 +3,7 @@ import DamageBreakdown from './components/DamageBreakdown.js'
 import DamagePerSecond from './components/DamagePerSecond.js'
 import DamagePerExecute from './components/DamagePerExecute.js'
 import TimeSpent from './components/TimeSpent.js'
+import Abilities from './components/Abilities/Abilities.js'
 import PlayerResults from './components/PlayerResults.js'
 import Highcharts from 'react-highcharts'
 import { Level } from 'reactbulma'
@@ -32,6 +33,9 @@ class App extends Component {
             <Level.Right>
               <TimeSpent data={profile} />
             </Level.Right>
+          </Level>
+          <Level>
+            <Abilities data={profile} />
           </Level>
         </div>
       )
