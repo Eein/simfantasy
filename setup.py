@@ -10,10 +10,7 @@ setup(
     install_requires=[
         'numpy',
         'humanfriendly',
+        'pandas',
+        'bokeh',
     ],
-    extras_require={
-        'docs': [
-            'sphinx-autodoc-typehints',
-        ]
-    }
 )

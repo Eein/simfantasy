@@ -133,3 +133,10 @@ class Role(Enum):
 class RefreshBehavior(Enum):
     EXTEND_TO_MAX = auto()
     RESET = auto()
+
+
+class Resource(Enum):
+    HP = auto()
+    MP = auto()
+    REPERTOIRE = auto()
+    TP = auto()
