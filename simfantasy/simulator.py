@@ -4,7 +4,11 @@ from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 from heapq import heapify, heappop, heappush
 from math import floor
+<<<<<<< HEAD
 from typing import ClassVar, Dict, Iterable, List, NamedTuple, Pattern, Tuple, Union
+=======
+from typing import Dict, List, Tuple, Union
+>>>>>>> 49e4308e0a2ac15b9199c68005c70370aecbddca
 from statistics import mean
 
 import humanfriendly
@@ -364,6 +368,7 @@ class Simulation:
 
         self.logger.info('Quitting!')
 
+<<<<<<< HEAD
     @property
     def relative_timestamp(self) -> str:
         """Return a formatted string containing the number of seconds since the simulation began.
@@ -382,6 +387,125 @@ class Simulation:
             '330.000'
         """
         return format((self.current_time - self.start_time).total_seconds(), '.3f')
+=======
+                event.execute()
+
+                self.current_time = event.timestamp
+
+                for actor in self.actors:
+                    if actor.ready:
+                        actor.decide()
+
+        self.logger.info('Analyzing encounter data...\n')
+
+        for actor in self.actors:
+            tables = []
+
+            format_table = format_robust_table if self.vertical_output else format_pretty_table
+
+            if len(actor.statistics['actions']) > 0:
+                statistics = []
+                totals = [0,0,0,0,0,0,0,0]
+
+                for cls in actor.statistics['actions']:
+                    s = actor.statistics['actions'][cls]
+                    total_damage = sum(damage for timestamp, damage in s['damage'])
+                    casts = len(s['casts'])
+                    execute_time = sum(duration.total_seconds() for timestamp, duration in s['execute_time'])
+                    damage_mean = total_damage / casts
+                    dps = total_damage / self.combat_length.total_seconds()
+                    dpet = total_damage / execute_time
+                    crit_percent = (len(s['critical_hits']) / casts) * 100
+                    direct_hit_percent = (len(s['direct_hits']) / casts) * 100
+                    crit_direct_hit_percent = (len(s['critical_direct_hits']) / casts) * 100
+
+                    # update totals
+                    totals[0] += casts
+                    totals[1] += total_damage
+                    totals[2] = mean([totals[2], damage_mean ])
+                    totals[3] += dps
+                    totals[4] = mean([totals[4], dpet])
+                    totals[5] = mean([totals[5], crit_percent])
+                    totals[6] = mean([totals[6], direct_hit_percent])
+                    totals[7] = mean([totals[7], crit_direct_hit_percent])
+
+                    statistics.append((
+                        cls.__name__,
+                        casts,
+                        format(total_damage, ',.0f'),
+                        format(damage_mean, ',.3f'),
+                        format(dps, ',.3f'),
+                        format(dpet, ',.3f'),
+                        humanfriendly.terminal.ansi_wrap(color='red',
+                                                         text=format(crit_percent, '.3f')),
+                        humanfriendly.terminal.ansi_wrap(color='blue',
+                                                         text=format(direct_hit_percent, '.3f')),
+                        humanfriendly.terminal.ansi_wrap(color='magenta',
+                                                         text=format(crit_direct_hit_percent,
+                                                                     '.3f')),
+                    ))
+
+                statistics.append((
+                    '---', '---', '---', '---', '---', '---', '---', '---', '---',
+                ))
+
+                statistics.append((
+                    'Total',
+                    totals[0],
+                    format(totals[1], ',.0f'),
+                    format(totals[2], ',.3f'),
+                    format(totals[3], ',.3f'),
+                    format(totals[4], ',.3f'),
+                    humanfriendly.terminal.ansi_wrap(color='red',
+                                                     text=format(totals[5], '.3f')),
+                    humanfriendly.terminal.ansi_wrap(color='blue',
+                                                     text=format(totals[6], '.3f')),
+                    humanfriendly.terminal.ansi_wrap(color='magenta',
+                                                     text=format(totals[7], '.3f')),
+                ))
+
+                tables.append(format_table(
+                    statistics,
+                    (
+                        'Name',
+                        'Casts',
+                        'Damage',
+                        'Damage (Mean)',
+                        'DPS',
+                        'DPET',
+                        'Crit %',
+                        'Direct %',
+                        'D.Crit %'
+                    )
+                ))
+
+            if len(actor.statistics['auras']) > 0:
+                statistics = []
+
+                for cls in actor.statistics['auras']:
+                    s = actor.statistics['auras'][cls]
+
+                    total_overflow = sum(remains.total_seconds() for timestamp, remains in s['refreshes'])
+                    average_overflow = total_overflow / len(s['refreshes']) if s['refreshes'] else 0
+
+                    statistics.append((
+                        cls.__name__,
+                        format(len(s['applications']), ',.0f'),
+                        format(len(s['expirations']), ',.0f'),
+                        format(len(s['refreshes']), ',.0f'),
+                        format(len(s['consumptions']), ',.0f'),
+                        format(total_overflow, ',.3f'),
+                        format(average_overflow, ',.3f'),
+                    ))
+
+                tables.append(format_table(
+                    statistics,
+                    ('Name', 'Applications', 'Expirations', 'Refreshes', 'Consumptions', 'Overflow', 'Overflow (Mean)'),
+                ))
+
+            if len(tables) > 0:
+                self.logger.info('Actor: %s\n\n%s\n', actor.name, '\n'.join(tables))
+>>>>>>> 49e4308e0a2ac15b9199c68005c70370aecbddca
 
     def __set_logger(self, log_level: int) -> None:
         """Create and set the logger instance.
